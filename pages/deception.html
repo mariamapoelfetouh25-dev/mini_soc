@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC cyber deception — simulated honeypots, decoys and triggered alerts.">
+<meta name="color-scheme" content="light dark">
+<title>Cyber Deception — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="deception" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Cyber Deception</h1>
+          <span class="demo-flag">Demo · simulated assets</span>
+        </div>
+        <p class="page-desc">
+          Honeypots, bait shares and decoy accounts that no legitimate process should ever touch.
+          Every asset and interaction on this page is simulated sample content — nothing here is a
+          deployed deception control.
+        </p>
+      </div>
+      <div class="page-actions">
+        <label class="field" style="margin:0">
+          <span class="field-label">Status</span>
+          <select class="select" id="dc-status">
+            <option value="all">All statuses</option>
+            <option value="Triggered">Triggered</option>
+            <option value="Armed">Armed</option>
+          </select>
+        </label>
+        <a class="btn btn-primary" href="investigation.html?id=INC-2026-1019">Open linked incident</a>
+      </div>
+    </header>
+
+    <section class="kpi-row" id="dc-kpis" aria-label="Deception metrics"></section>
+
+    <section class="card" aria-labelledby="dc-assets-title" style="margin-bottom:16px">
+      <div class="card-head bordered">
+        <div>
+          <h2 class="card-title" id="dc-assets-title">Deception assets</h2>
+          <div class="card-sub" id="dc-assets-sub">Select an asset for its purpose and interaction history</div>
+        </div>
+        <span class="demo-flag">Simulated coverage</span>
+      </div>
+      <div class="card-body">
+        <div class="decoy-grid" id="dc-grid"></div>
+      </div>
+    </section>
+
+    <section class="card" aria-labelledby="dc-timeline-title">
+      <div class="card-head bordered">
+        <div>
+          <h2 class="card-title" id="dc-timeline-title">Interaction timeline</h2>
+          <div class="card-sub">Who touched a decoy, when, and what it likely means</div>
+        </div>
+        <a class="btn btn-sm" href="events.html?type=Deception">Related events</a>
+      </div>
+      <div class="table-wrap">
+        <table class="table">
+          <caption class="sr-only">Simulated deception interactions in chronological order</caption>
+          <thead>
+            <tr>
+              <th scope="col">Time</th>
+              <th scope="col">Decoy</th>
+              <th scope="col">Actor</th>
+              <th scope="col">Interaction</th>
+              <th scope="col">Severity</th>
+              <th scope="col">Incident</th>
+            </tr>
+          </thead>
+          <tbody id="dc-timeline"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/deception.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

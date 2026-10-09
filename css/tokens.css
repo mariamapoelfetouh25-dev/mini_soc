@@ -1,0 +1,222 @@
+/* ==========================================================================
+   Mini-SOC · tokens.css
+   Design tokens: palette, typography, spacing, elevation, severity, motion.
+   Every visual value in the app is derived from these variables.
+   ========================================================================== */
+
+:root {
+  color-scheme: light;
+
+  /* ---- Brand palette (spec) ---------------------------------------- */
+  --obsidian: #111827;
+  --electric-blue: #3478f6;
+  --soft-lavender: #a99bfa;
+  --cloud-white: #f5f6fa;
+  --ice-blue: #dce7ff;
+  --soft-amber: #e5b85c;
+
+  /* ---- Semantic accent --------------------------------------------- */
+  --accent: #1f63db; /* darkened from #3478f6: ≥4.5:1 on white and on soft backgrounds */
+  --accent-strong: #2563eb;
+  --accent-contrast: #ffffff;
+  --accent-soft: rgba(31, 99, 219, 0.1);
+  --accent-soft-2: rgba(31, 99, 219, 0.18);
+  --lav: #5a4bd4; /* lavender — darkened from #6d5ce7 for ≥4.5:1 on lavender surfaces */
+  --lav-soft: rgba(169, 155, 250, 0.18);
+  --lav-line: rgba(109, 92, 231, 0.35);
+
+  /* ---- Surfaces ----------------------------------------------------- */
+  --bg: var(--cloud-white);
+  --surface: #ffffff;
+  --surface-2: #f8fafd;
+  --surface-3: #eef1f7;
+  --surface-inset: #f2f4f9;
+  --surface-hover: #f1f4fa;
+
+  /* ---- Text --------------------------------------------------------- */
+  --text: var(--obsidian);
+  --text-2: #4b5565; /* secondary */
+  --text-3: #636d85; /* subtle — darkened from #79839a for 4.5:1 on white */
+
+  /* ---- Borders ------------------------------------------------------ */
+  --border: #e3e7ef;
+  --border-2: #d3dae6;
+  --border-strong: #bcc5d6;
+
+  /* ---- Elevation ---------------------------------------------------- */
+  --shadow-1: 0 1px 2px rgba(17, 24, 39, 0.06), 0 1px 3px rgba(17, 24, 39, 0.05);
+  --shadow-2: 0 10px 30px rgba(17, 24, 39, 0.1), 0 2px 6px rgba(17, 24, 39, 0.06);
+  --shadow-3: 0 24px 60px rgba(17, 24, 39, 0.18);
+  --overlay: rgba(17, 24, 39, 0.45);
+
+  /* ---- Severity (text / tint / line) -------------------------------- */
+  --sev-critical: #b42318;
+  --sev-critical-soft: #fee9e7;
+  --sev-critical-line: #f3b6b0;
+
+  --sev-high: #c4320a;
+  --sev-high-soft: #fdece4;
+  --sev-high-line: #f9bf9f;
+
+  --sev-medium: #8a5b00;
+  --sev-medium-soft: #fcf3df;
+  --sev-medium-line: #eed79c;
+
+  --sev-low: #1d5fe9;
+  --sev-low-soft: #e8effe;
+  --sev-low-line: #b3cafb;
+
+  --sev-info: #087a50;
+  --sev-info-soft: #e4f6ed;
+  --sev-info-line: #a5dcc4;
+
+  /* Alias used by charts / graph */
+  --c-critical: var(--sev-critical);
+  --c-high: var(--sev-high);
+  --c-medium: var(--sev-medium);
+  --c-low: var(--sev-low);
+  --c-info: var(--sev-info);
+
+  /* ---- Graph node types --------------------------------------------- */
+  --nt-user: #7c6bea;
+  --nt-endpoint: #3478f6;
+  --nt-server: #0e9488;
+  --nt-process: #c08a1e;
+  --nt-file: #12b76a;
+  --nt-external: #7a8496;
+  --nt-network: #6f7a92;
+  --nt-decoy: #d6336c;
+
+  /* ---- Feedback ------------------------------------------------------ */
+  --ok: #087a50;
+  --ok-soft: #e4f6ed;
+  --warn: #8a5b00;
+  --danger: #b42318;
+  --danger-soft: #fee9e7;
+
+  /* ---- Focus --------------------------------------------------------- */
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
+  --focus-ring-inset: inset 0 0 0 2px var(--accent);
+
+  /* ---- Typography ---------------------------------------------------- */
+  --font: "Inter", "Inter var", "Segoe UI", system-ui, -apple-system, "Helvetica Neue",
+    Arial, sans-serif;
+  --font-mono: "SFMono-Regular", "JetBrains Mono", Consolas, "Liberation Mono", monospace;
+
+  --fs-2xs: 11px;
+  --fs-xs: 12px;
+  --fs-sm: 13px;
+  --fs-base: 14px;
+  --fs-md: 15px;
+  --fs-lg: 18px;
+  --fs-xl: 22px;
+  --fs-2xl: 26px;
+
+  /* ---- Spacing / radius --------------------------------------------- */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+  --sp-9: 56px;
+
+  --r-sm: 6px;
+  --r-md: 10px;
+  --r-lg: 14px;
+  --r-pill: 999px;
+
+  /* ---- Layout -------------------------------------------------------- */
+  --sidebar-w: 244px;
+  --sidebar-w-collapsed: 68px;
+  --topbar-h: 60px;
+  --page-max: 1480px;
+  --page-pad: 24px;
+
+  /* ---- Motion -------------------------------------------------------- */
+  --t-fast: 120ms;
+  --t: 180ms;
+  --t-slow: 320ms;
+  --ease: cubic-bezier(0.2, 0.7, 0.3, 1);
+
+  --z-sidebar: 60;
+  --z-topbar: 50;
+  --z-drawer: 70;
+  --z-dialog: 90;
+  --z-toast: 100;
+}
+
+/* ==========================================================================
+   Dark theme — designed surfaces, not an inversion.
+   ========================================================================== */
+[data-theme="dark"] {
+  color-scheme: dark;
+
+  --accent: #6ba0ff; /* lightened from #5b93ff for ≥4.5:1 on raised dark badges */
+  --accent-strong: #78a7ff;
+  --accent-contrast: #0a1122;
+  --accent-soft: rgba(91, 147, 255, 0.14);
+  --accent-soft-2: rgba(91, 147, 255, 0.24);
+  --lav: #b3a7ff;
+  --lav-soft: rgba(169, 155, 250, 0.16);
+  --lav-line: rgba(179, 167, 255, 0.38);
+
+  --bg: var(--obsidian);
+  --surface: #161e2e;
+  --surface-2: #1a2334;
+  --surface-3: #212c40;
+  --surface-inset: #121a29;
+  --surface-hover: #1e2839;
+
+  --text: #e9edf6;
+  --text-2: #a6b0c3;
+  --text-3: #8b96ac; /* subtle — lightened for ≥4.5:1 on raised dark surfaces */
+
+  --border: #263144;
+  --border-2: #313e55;
+  --border-strong: #425068;
+
+  --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --shadow-2: 0 12px 32px rgba(0, 0, 0, 0.55);
+  --shadow-3: 0 26px 64px rgba(0, 0, 0, 0.62);
+  --overlay: rgba(4, 8, 17, 0.62);
+
+  --sev-critical: #ff9b93;
+  --sev-critical-soft: rgba(217, 45, 32, 0.2);
+  --sev-critical-line: rgba(255, 155, 147, 0.34);
+
+  --sev-high: #ffa07a;
+  --sev-high-soft: rgba(240, 90, 50, 0.18);
+  --sev-high-line: rgba(255, 160, 122, 0.32);
+
+  --sev-medium: #f0c36a;
+  --sev-medium-soft: rgba(229, 184, 92, 0.16);
+  --sev-medium-line: rgba(240, 195, 106, 0.3);
+
+  --sev-low: #82abff;
+  --sev-low-soft: rgba(52, 120, 246, 0.2);
+  --sev-low-line: rgba(130, 171, 255, 0.32);
+
+  --sev-info: #5bd6a0;
+  --sev-info-soft: rgba(18, 183, 106, 0.16);
+  --sev-info-line: rgba(91, 214, 160, 0.3);
+
+  --nt-user: #a99bfa;
+  --nt-endpoint: #5b93ff;
+  --nt-server: #4fd1c5;
+  --nt-process: #e5b85c;
+  --nt-file: #5bd6a0;
+  --nt-external: #98a2b3;
+  --nt-network: #9aa5bb;
+  --nt-decoy: #ff8fb3;
+
+  --ok: #5bd6a0;
+  --ok-soft: rgba(18, 183, 106, 0.16);
+  --warn: #f0c36a;
+  --danger: #ff9b93;
+  --danger-soft: rgba(217, 45, 32, 0.2);
+
+  --focus-ring: 0 0 0 2px var(--surface), 0 0 0 4px var(--accent);
+}

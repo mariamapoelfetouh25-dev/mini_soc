@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC threat hunting — run local queries against the sample event dataset.">
+<meta name="color-scheme" content="light dark">
+<title>Threat Hunting — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="threat-hunting" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Threat Hunting</h1>
+          <span class="demo-flag">Demo · local dataset</span>
+        </div>
+        <p class="page-desc">
+          Write a query, pick optional scope filters and run it against the sample events stored in
+          this browser. Queries never reach a real network, EDR or data lake.
+        </p>
+      </div>
+      <div class="page-actions">
+        <button class="btn" type="button" id="hq-export">Export results (CSV)</button>
+        <button class="btn btn-primary" type="button" id="hq-focus">New query</button>
+      </div>
+    </header>
+
+    <!-- Query builder -->
+    <section class="card query-builder" aria-labelledby="hq-title">
+      <div class="card-head">
+        <div>
+          <h2 class="card-title" id="hq-title">Query builder</h2>
+          <div class="card-sub">Free text (AND) plus optional <code>field:value</code> tokens</div>
+        </div>
+        <span class="demo-flag">Runs in your browser</span>
+      </div>
+
+      <div class="card-body">
+        <div class="query-input-row">
+          <label class="sr-only" for="hq-query">Hunt query</label>
+          <input class="input input-lg mono" type="search" id="hq-query"
+                 placeholder="e.g. type:Process powershell encoded" autocomplete="off">
+          <button class="btn btn-primary" type="button" id="hq-run">Run query</button>
+        </div>
+
+        <div class="row row-wrap" style="gap:8px;margin-top:12px" role="group" aria-label="Scope filters">
+          <span class="eyebrow" style="align-self:center">Scope</span>
+          <button class="btn btn-sm" type="button" data-filter="network" aria-pressed="false">Network</button>
+          <button class="btn btn-sm" type="button" data-filter="endpoints" aria-pressed="false">Endpoints</button>
+          <button class="btn btn-sm" type="button" data-filter="credentials" aria-pressed="false">Credentials</button>
+          <button class="btn btn-sm" type="button" data-filter="behavioral" aria-pressed="false">Behavioural</button>
+        </div>
+
+        <div class="syntax-help">
+          <div class="sh-title">Supported syntax</div>
+          <div class="sh-items">
+            <code>field:value</code>
+            <span>field ∈ type, severity, status, asset, source, incident, technique</span>
+            <code>plain words</code>
+            <span>all words must match title, detail, evidence, asset or id</span>
+            <code>scope buttons</code>
+            <span>additional predicates: network, endpoints, credentials, behavioural</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Results -->
+    <section class="card" aria-labelledby="hq-results-title">
+      <div class="card-head bordered">
+        <div>
+          <h2 class="card-title" id="hq-results-title">Results</h2>
+          <div class="result-status">
+            <span class="result-count" id="hq-count">Not run yet</span>
+            <span id="hq-status" aria-live="polite"></span>
+          </div>
+        </div>
+        <a class="btn btn-sm" href="events.html">Open full event stream</a>
+      </div>
+      <div id="hq-results"></div>
+    </section>
+
+    <div class="grid grid-2 section">
+      <!-- Saved queries -->
+      <section class="card" aria-labelledby="hq-saved-title">
+        <div class="card-head bordered">
+          <div>
+            <h2 class="card-title" id="hq-saved-title">Saved queries</h2>
+            <div class="card-sub">Reusable starter hypotheses for the demo environment</div>
+          </div>
+        </div>
+        <div class="card-body" id="hq-saved"></div>
+      </section>
+
+      <!-- History -->
+      <section class="card" aria-labelledby="hq-history-title">
+        <div class="card-head bordered">
+          <div>
+            <h2 class="card-title" id="hq-history-title">Query history</h2>
+            <div class="card-sub">This session's runs against the sample records</div>
+          </div>
+        </div>
+        <div class="card-body" id="hq-history"></div>
+      </section>
+    </div>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/threat-hunting.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

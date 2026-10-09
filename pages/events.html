@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC security events and alerts — searchable sample event stream.">
+<meta name="color-scheme" content="light dark">
+<title>Security Events — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="events" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Security Events &amp; Alerts</h1>
+          <span class="demo-flag">Demo · sample data</span>
+        </div>
+        <p class="page-desc">
+          The most recent sample records from the demo environment. Search and filters operate on
+          these local records only — no sensor or log source is queried.
+        </p>
+      </div>
+      <div class="page-actions">
+        <button class="btn" type="button" id="ev-export">Export CSV</button>
+        <a class="btn btn-primary" href="threat-hunting.html">Open hunt query</a>
+      </div>
+    </header>
+
+    <section class="card" aria-labelledby="ev-table-title">
+      <div class="card-head">
+        <div>
+          <h2 class="card-title" id="ev-table-title">Event stream</h2>
+          <div class="card-sub" id="ev-record-note">Loading sample records…</div>
+        </div>
+        <div class="card-actions"><span class="demo-flag">Local records</span></div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="field grow">
+          <label class="field-label" for="ev-search">Search</label>
+          <div class="input-icon">
+            <span id="ev-search-ico"></span>
+            <input class="input" type="search" id="ev-search" placeholder="Event ID, host, technique, text…" autocomplete="off">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="ev-severity">Severity</label>
+          <select class="select" id="ev-severity"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="ev-source">Source</label>
+          <select class="select" id="ev-source"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="ev-type">Event type</label>
+          <select class="select" id="ev-type"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="ev-status">Status</label>
+          <select class="select" id="ev-status"></select>
+        </div>
+        <button class="btn btn-ghost" type="button" id="ev-clear">Clear filters</button>
+      </div>
+
+      <div class="table-wrap">
+        <table class="table" id="ev-table">
+          <caption class="sr-only">Sample security events with severity, source asset and status</caption>
+          <thead id="ev-thead"></thead>
+          <tbody id="ev-tbody"></tbody>
+        </table>
+      </div>
+
+      <div class="table-foot">
+        <div class="table-meta" id="ev-meta" aria-live="polite"></div>
+        <div id="ev-pager"></div>
+      </div>
+    </section>
+
+    <p class="xsmall subtle" style="margin-top:12px">
+      Sample data note: detailed records are retained for 07–09 Oct 2026; the seven-day totals shown
+      on the Overview are a separate aggregate of the same demo environment.
+    </p>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/events.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

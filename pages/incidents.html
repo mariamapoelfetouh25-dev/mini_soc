@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC incident management — triage and track sample incidents.">
+<meta name="color-scheme" content="light dark">
+<title>Incidents — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="incidents" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Incident Management</h1>
+          <span class="demo-flag">Demo · sample data</span>
+        </div>
+        <p class="page-desc">
+          Triage, assign and track the demo incident queue. Status changes are saved in this browser
+          session and recorded in the local audit log — they are not sent to any system.
+        </p>
+      </div>
+      <div class="page-actions">
+        <a class="btn" href="reports.html">Incident report</a>
+        <a class="btn btn-primary" href="investigation.html?id=INC-2026-1039">Open top incident</a>
+      </div>
+    </header>
+
+    <section class="card" aria-labelledby="inc-list-title">
+      <div class="card-head">
+        <div>
+          <h2 class="card-title" id="inc-list-title">Incident queue</h2>
+          <div class="card-sub">States: New → Investigating → Contained → Resolved → Closed</div>
+        </div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="segmented" id="inc-status-tabs" role="group" aria-label="Filter by incident status"></div>
+      </div>
+
+      <div class="table-toolbar">
+        <div class="field grow">
+          <label class="field-label" for="inc-search">Search</label>
+          <div class="input-icon">
+            <span id="inc-search-ico"></span>
+            <input class="input" type="search" id="inc-search" placeholder="Incident ID, title, owner…" autocomplete="off">
+          </div>
+        </div>
+        <div class="field">
+          <label class="field-label" for="inc-severity">Severity</label>
+          <select class="select" id="inc-severity">
+            <option value="all">All severities</option>
+            <option value="Critical">Critical</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="inc-owner">Owner</label>
+          <select class="select" id="inc-owner"></select>
+        </div>
+        <div class="field">
+          <label class="field-label" for="inc-sort">Sort by</label>
+          <select class="select" id="inc-sort">
+            <option value="riskScore:desc">Risk score (high → low)</option>
+            <option value="riskScore:asc">Risk score (low → high)</option>
+            <option value="severity:desc">Severity (high → low)</option>
+            <option value="createdAt:desc">Created (newest)</option>
+            <option value="createdAt:asc">Created (oldest)</option>
+            <option value="id:asc">Incident ID (A → Z)</option>
+          </select>
+        </div>
+        <button class="btn btn-ghost" type="button" id="inc-clear">Clear filters</button>
+      </div>
+
+      <div id="inc-list" class="incident-list"></div>
+
+      <div class="table-foot">
+        <div class="table-meta" id="inc-meta" aria-live="polite"></div>
+        <div id="inc-pager"></div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/incidents.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

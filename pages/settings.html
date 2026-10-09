@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC settings — theme, motion, data preferences and demo environment information.">
+<meta name="color-scheme" content="light dark">
+<title>Settings — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="settings" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Settings</h1>
+          <span class="demo-flag">Demo · local preferences</span>
+        </div>
+        <p class="page-desc">
+          Preferences are stored in this browser only (localStorage). Nothing here talks to a server,
+          and there is no account or authentication in this demo.
+        </p>
+      </div>
+      <div class="page-actions">
+        <button class="btn" type="button" id="st-clear">Clear preferences</button>
+        <button class="btn btn-primary" type="button" id="st-reload">Reset demo session</button>
+      </div>
+    </header>
+
+    <!-- Appearance -->
+    <section class="setting-group" aria-labelledby="st-theme-title">
+      <h2 id="st-theme-title">Appearance</h2>
+      <p class="sg-desc">Theme and motion settings persist across pages and reloads.</p>
+
+      <div class="setting-row stack-row">
+        <div class="sr-info">
+          <div class="sr-title">Theme preference</div>
+          <div class="sr-desc">Choose light or dark. The topbar button and the D shortcut switch themes too.</div>
+        </div>
+        <div class="theme-preview" id="st-theme-cards">
+          <button class="theme-card" type="button" data-theme-choice="light" aria-pressed="false">
+            <span class="tc-swatches">
+              <i style="background:#ffffff"></i><i style="background:#f2f5fb"></i><i style="background:#3478f6"></i><i style="background:#0b1526"></i>
+            </span>
+            <span class="tc-label"><span data-theme-icon></span>Light theme</span>
+            <span class="tc-hint">Bright surfaces, dark text</span>
+          </button>
+          <button class="theme-card" type="button" data-theme-choice="dark" aria-pressed="false">
+            <span class="tc-swatches">
+              <i style="background:#0b111d"></i><i style="background:#121a2a"></i><i style="background:#5b9dff"></i><i style="background:#e6edf7"></i>
+            </span>
+            <span class="tc-label"><span data-theme-icon></span>Dark theme</span>
+            <span class="tc-hint">Dim surfaces, light text</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="sr-info">
+          <div class="sr-title">Prefer reduced motion</div>
+          <div class="sr-desc">
+            Disables graph pulses, moving path highlights and transitions. The system-level
+            <code>prefers-reduced-motion</code> setting is always respected as well.
+          </div>
+        </div>
+        <div class="sr-control">
+          <label class="switch">
+            <input type="checkbox" id="st-motion">
+            <span class="switch-track"></span>
+            <span class="xsmall" id="st-motion-label">Follow system</span>
+          </label>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="sr-info">
+          <div class="sr-title">Collapse sidebar on start</div>
+          <div class="sr-desc">Keeps the icon rail only; hover labels return while the mouse is over the rail.</div>
+        </div>
+        <div class="sr-control">
+          <label class="switch">
+            <input type="checkbox" id="st-sidebar">
+            <span class="switch-track"></span>
+            <span class="xsmall" id="st-sidebar-label">Expanded</span>
+          </label>
+        </div>
+      </div>
+    </section>
+
+    <!-- Data preferences -->
+    <section class="setting-group" aria-labelledby="st-data-title">
+      <h2 id="st-data-title">Data preferences</h2>
+      <p class="sg-desc">How demo records are presented in tables.</p>
+
+      <div class="setting-row">
+        <div class="sr-info">
+          <div class="sr-title">Rows per page</div>
+          <div class="sr-desc">Applies to the Security Events and Incident Management tables.</div>
+        </div>
+        <div class="sr-control">
+          <select class="select" id="st-page-size" aria-label="Rows per page">
+            <option value="6">6 rows</option>
+            <option value="10">10 rows</option>
+            <option value="15">15 rows</option>
+            <option value="25">25 rows</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="setting-row">
+        <div class="sr-info">
+          <div class="sr-title">Demo session</div>
+          <div class="sr-desc">
+            Status changes, audit entries and hunt history live in memory. Reloading the page restores
+            the original sample dataset.
+          </div>
+        </div>
+        <div class="sr-control">
+          <button class="btn btn-sm" type="button" id="st-reload-2">Reload sample data</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Keyboard shortcuts -->
+    <section class="setting-group" aria-labelledby="st-kbd-title">
+      <h2 id="st-kbd-title">Keyboard shortcuts</h2>
+      <p class="sg-desc">Available on every page.</p>
+      <div class="setting-row stack-row">
+        <div class="stack-2" style="width:100%">
+          <div class="kv"><span><kbd>Ctrl</kbd> / <kbd>Cmd</kbd> + <kbd>K</kbd></span><span class="small muted">Open global search</span></div>
+          <div class="kv"><span><kbd>/</kbd></span><span class="small muted">Open global search when you are not typing</span></div>
+          <div class="kv"><span><kbd>D</kbd></span><span class="small muted">Toggle light / dark theme</span></div>
+          <div class="kv"><span><kbd>Esc</kbd></span><span class="small muted">Close dialog, drawer or popover</span></div>
+          <div class="kv"><span><kbd>Tab</kbd> then <kbd>Enter</kbd></span><span class="small muted">Move through controls and select a graph entity</span></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Demo environment -->
+    <section class="setting-group" aria-labelledby="st-env-title">
+      <h2 id="st-env-title">Demo environment</h2>
+      <p class="sg-desc">Everything the frontend currently knows about itself.</p>
+      <div class="setting-row stack-row">
+        <div class="about-grid" id="st-about" style="width:100%"></div>
+      </div>
+      <div class="setting-row">
+        <div class="sr-info">
+          <div class="sr-title">Data statement</div>
+          <div class="sr-desc" id="st-claim"></div>
+        </div>
+        <div class="sr-control"><span class="demo-flag">Sample data</span></div>
+      </div>
+    </section>
+
+    <!-- Backend integration points -->
+    <section class="setting-group" aria-labelledby="st-api-title">
+      <h2 id="st-api-title">Backend integration points (placeholders)</h2>
+      <p class="sg-desc">
+        Documented in <code>js/services.js</code>. None of these URLs exist yet — they describe where
+        a future API plugs in so page code stays unchanged.
+      </p>
+      <div class="setting-row stack-row">
+        <div class="table-wrap" style="width:100%">
+          <table class="table">
+            <caption class="sr-only">Placeholder API endpoints declared in js/services.js</caption>
+            <thead>
+              <tr><th scope="col">Purpose</th><th scope="col">Placeholder endpoint</th></tr>
+            </thead>
+            <tbody id="st-api-body"></tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/settings.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
