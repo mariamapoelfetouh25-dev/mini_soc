@@ -92,10 +92,13 @@ backend in the way:
   `<div id="app-shell">`; each page registers a controller with `SOC.registerPage('data-page-id', init)`
   and `app.js` boots the shell first, then the matching controller inside a `try/catch` that
   renders a readable error card instead of a blank page.
-- **Browser APIs used:** `localStorage`, `MutationObserver` (dynamic panels), `IntersectionObserver`
-  + `requestAnimationFrame` (chart/graph pausing), `Blob`/`URL.createObjectURL` (CSV),
-  `History`/query parameters (deep links), `matchMedia` (reduced motion), `Clipboard`, and
-  delegated keyboard handling for dialogs/drawers/popovers.
+- **Browser APIs used:** `localStorage` (prefs + chat store), `MutationObserver` (dynamic panels),
+  `IntersectionObserver` (pauses the attack-graph animation when off-screen), `URLSearchParams`
+  (deep links), `Blob`/`URL.createObjectURL` (CSV export), `matchMedia`
+  (`prefers-reduced-motion` and `prefers-color-scheme`), `navigator.clipboard`, plus a tiny
+  in-memory event bus (`SOC.on`/`SOC.emit`) and delegated keyboard handling for dialogs, drawers
+  and popovers. All animation is CSS-driven (`transition`/`@keyframes`) — there is no
+  `requestAnimationFrame` loop.
 
 ### Why no framework?
 
