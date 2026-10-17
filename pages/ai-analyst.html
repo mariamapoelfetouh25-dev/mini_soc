@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC AI Security Analyst — evidence-grounded sample analysis with explicit uncertainty.">
+<meta name="color-scheme" content="light dark">
+<title>AI Security Analyst — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="ai-analyst" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">AI Security Analyst</h1>
+          <span class="demo-flag">Demo · sample analysis</span>
+        </div>
+        <p class="page-desc">
+          Evidence-grounded analysis samples for three demo incidents. Every statement is classified
+          as an observed fact, an inference or a recommendation, with supporting event references.
+        </p>
+      </div>
+      <div class="page-actions">
+        <label class="field" style="margin:0">
+          <span class="field-label">Incident</span>
+          <select class="select" id="ai-incident" aria-label="Choose incident"></select>
+        </label>
+        <a class="btn btn-primary" id="ai-open-incident" href="investigation.html?id=INC-2026-1039">Open investigation</a>
+      </div>
+    </header>
+
+    <div class="note note-warn" style="margin-bottom:16px">
+      <span id="ai-note-ico"></span>
+      <div>
+        <b>No language model runs in this demo.</b>
+        <div class="xsmall">
+          The text below was authored as part of the sample dataset so the layout, labelling and
+          uncertainty handling can be reviewed. Connecting a real model is a backend task described
+          in the README — this page never claims live AI output.
+        </div>
+      </div>
+    </div>
+
+    <div id="ai-root" class="stack-4"></div>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/ai-analyst.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>

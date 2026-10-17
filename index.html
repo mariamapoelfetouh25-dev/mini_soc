@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC overview dashboard — demo security posture, sample data only.">
+<meta name="color-scheme" content="light dark">
+<title>Overview — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+/* Apply the stored theme before first paint to avoid a flash. */
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="css/tokens.css">
+<link rel="stylesheet" href="css/base.css">
+<link rel="stylesheet" href="css/layout.css">
+<link rel="stylesheet" href="css/components.css">
+<link rel="stylesheet" href="css/pages.css">
+<link rel="stylesheet" href="css/responsive.css">
+<link rel="stylesheet" href="css/chat.css">
+</head>
+<body data-page="overview" data-root=".">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Overview</h1>
+          <span class="demo-flag">Demo · sample data</span>
+        </div>
+        <p class="page-desc">
+          Security posture for the Mini-SOC demo workspace, 07–09 Oct 2026. Every number,
+          alert and entity below is generated locally from a sample dataset — no live telemetry
+          is connected.
+        </p>
+      </div>
+      <div class="page-actions">
+        <a class="btn" href="pages/threat-hunting.html">Run a hunt query</a>
+        <a class="btn btn-primary" href="pages/incidents.html">Open incidents</a>
+      </div>
+    </header>
+
+    <section class="kpi-row" id="kpi-row" aria-label="Key security metrics"></section>
+
+    <div class="overview-main">
+      <div class="stack-4">
+        <!-- Signature component: interactive entity graph -->
+        <section class="card graph-panel" aria-labelledby="ov-graph-title">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title" id="ov-graph-title">Attack path &amp; entity graph</h2>
+              <div class="card-sub">
+                Sample relationships across external, identity, endpoint, server and decoy entities
+              </div>
+            </div>
+            <div class="card-actions">
+              <button class="btn btn-sm" type="button" id="ov-graph-path" aria-pressed="true">Attack path</button>
+              <a class="btn btn-sm" href="pages/attack-graph.html">Open full graph</a>
+            </div>
+          </div>
+          <div id="overview-graph"></div>
+          <div id="overview-graph-legend"></div>
+          <div class="card-body tight" id="overview-graph-detail" hidden></div>
+        </section>
+
+        <section class="card" aria-labelledby="ov-series-title">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title" id="ov-series-title">Events over time</h2>
+              <div class="card-sub">6-hour buckets · 7-day sample aggregate</div>
+            </div>
+            <div class="card-actions"><span class="demo-flag">Sample aggregate</span></div>
+          </div>
+          <div class="card-body">
+            <div class="chart-box" id="chart-events"></div>
+            <div class="chart-legend">
+              <span class="lg"><span class="swatch" style="--sw:var(--accent)"></span>Security events ingested</span>
+              <span class="subtle">Hover the chart for bucket detail.</span>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="stack-4">
+        <section class="card" aria-labelledby="ov-sev-title">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title" id="ov-sev-title">Event severity distribution</h2>
+              <div class="card-sub">7-day sample totals</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="chart-severity"></div>
+          </div>
+        </section>
+
+        <section class="card" aria-labelledby="ov-activity-title">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title" id="ov-activity-title">Recent security activity</h2>
+              <div class="card-sub">Newest first · demo records</div>
+            </div>
+          </div>
+          <div class="card-body">
+            <ol class="timeline" id="activity-timeline"></ol>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div class="grid grid-2 section">
+      <section class="card" aria-labelledby="ov-hipri-title">
+        <div class="card-head bordered">
+          <div>
+            <h2 class="card-title" id="ov-hipri-title">High-priority incidents</h2>
+            <div class="card-sub">Open incidents ordered by risk score</div>
+          </div>
+          <a class="btn btn-sm" href="pages/incidents.html">View all</a>
+        </div>
+        <div class="card-body flush" id="priority-incidents"></div>
+      </section>
+
+      <section class="card" aria-labelledby="ov-hunt-title">
+        <div class="card-head bordered">
+          <div>
+            <h2 class="card-title" id="ov-hunt-title">Recent threat-hunting results</h2>
+            <div class="card-sub">Queries executed against local sample records</div>
+          </div>
+          <a class="btn btn-sm" href="pages/threat-hunting.html">Hunt library</a>
+        </div>
+        <div class="card-body flush" id="hunting-results"></div>
+      </section>
+    </div>
+
+    <section class="section" aria-labelledby="ov-quick-title">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title" id="ov-quick-title">Quick links to active work</h2>
+          <p class="section-sub">Jump straight into the investigation that needs attention.</p>
+        </div>
+      </div>
+      <div class="grid grid-3" id="quick-links"></div>
+    </section>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="js/utils.js"></script>
+<script src="js/theme.js"></script>
+<script src="js/demo-data.js"></script>
+<script src="js/demo-scenarios.js"></script>
+<script src="js/services.js"></script>
+<script src="js/components.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/network-graph.js"></script>
+<script src="js/navigation.js"></script>
+<script src="js/chat-service.js"></script>
+<script src="js/chat-ui.js"></script>
+<script src="js/pages/overview.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

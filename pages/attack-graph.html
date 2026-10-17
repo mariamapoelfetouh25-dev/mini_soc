@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Mini-SOC attack graph — explore entities, relationships and the sample attack path.">
+<meta name="color-scheme" content="light dark">
+<title>Attack Graph — Mini-SOC</title>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%233478F6' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 3.2l7 2.9v5.4c0 4.2-2.9 7.3-7 8.5-4.1-1.2-7-4.3-7-8.5V6.1z'/%3E%3Cpath d='M9 12.2l2.2 2.2 3.8-4.1'/%3E%3C/svg%3E">
+<script>
+(function () {
+  try {
+    var theme = localStorage.getItem("soc.theme");
+    if (theme !== "dark" && theme !== "light") {
+      theme = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+    }
+    document.documentElement.setAttribute("data-theme", theme);
+    var motion = localStorage.getItem("soc.motion");
+    if (motion === "reduced") document.documentElement.setAttribute("data-motion", "reduced");
+  } catch (e) {}
+})();
+</script>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/base.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/components.css">
+<link rel="stylesheet" href="../css/pages.css">
+<link rel="stylesheet" href="../css/responsive.css">
+<link rel="stylesheet" href="../css/chat.css">
+</head>
+<body data-page="attack-graph" data-root="..">
+<a class="skip-link" href="#main-content">Skip to main content</a>
+
+<div id="app-shell"></div>
+
+<main id="main-content" class="page" tabindex="-1">
+  <div class="page-inner">
+
+    <header class="page-head">
+      <div>
+        <div class="row row-wrap" style="gap:12px">
+          <h1 class="page-title">Attack Graph</h1>
+          <span class="demo-flag">Demo · sample data</span>
+        </div>
+        <p class="page-desc">
+          Entity relationships across the demo environment. Drag to pan, scroll or pinch to zoom,
+          click an entity to inspect it. The highlighted chain is a <b>sample</b> attack path from a
+          simulated external IP to an encryptor payload — no live graph is queried.
+        </p>
+      </div>
+      <div class="page-actions">
+        <button class="btn" type="button" id="ag-reset">Reset view</button>
+        <button class="btn btn-primary" type="button" id="ag-path" aria-pressed="true">Attack path: on</button>
+      </div>
+    </header>
+
+    <div class="graph-workspace">
+      <div class="stack-4">
+        <section class="card graph-panel" aria-labelledby="ag-title">
+          <div class="card-head">
+            <div>
+              <h2 class="card-title" id="ag-title">Entity graph</h2>
+              <div class="card-sub" id="ag-sub">Sample relationships · deterministic layout</div>
+            </div>
+            <div class="card-actions"><span class="demo-flag">Local dataset</span></div>
+          </div>
+          <div id="attack-graph"></div>
+          <div id="ag-legend"></div>
+        </section>
+
+        <section class="card" aria-labelledby="ag-events-title">
+          <div class="card-head bordered">
+            <div>
+              <h2 class="card-title" id="ag-events-title">Related sample events</h2>
+              <div class="card-sub" id="ag-events-sub">Select an entity to list its events</div>
+            </div>
+            <a class="btn btn-sm" href="events.html">Open event stream</a>
+          </div>
+          <div class="card-body" id="ag-events"></div>
+        </section>
+      </div>
+
+      <aside class="graph-side" aria-label="Graph details">
+        <section class="card card-pad" aria-labelledby="ag-detail-title">
+          <h2 class="card-title" id="ag-detail-title">Entity details</h2>
+          <div id="ag-detail" style="margin-top:12px"></div>
+        </section>
+
+        <section class="card card-pad" aria-labelledby="ag-path-title">
+          <h2 class="card-title" id="ag-path-title">Sample attack path</h2>
+          <div class="path-summary" id="ag-path-summary" style="margin-top:12px"></div>
+        </section>
+
+        <section class="card card-pad" aria-labelledby="ag-help-title">
+          <h2 class="card-title" id="ag-help-title">How to read this graph</h2>
+          <ul class="steps-list" style="margin-top:10px">
+            <li><span>Shape identifies the entity type; colour follows the legend below the graph.</span></li>
+            <li><span>The dashed outer ring marks risk level: critical, high, medium or low.</span></li>
+            <li><span>A soft glow marks entities that behaved suspiciously in the sample records.</span></li>
+            <li><span>Edge labels appear on hover, on selection, and along the highlighted path.</span></li>
+          </ul>
+          <div class="note note-info" style="margin-top:12px">
+            <span id="ag-help-ico"></span>
+            <div>Layout coordinates are hand-authored and identical on every load — the graph does not simulate physics.</div>
+          </div>
+        </section>
+      </aside>
+    </div>
+
+  </div>
+</main>
+
+<div id="overlay-root"></div>
+
+<script src="../js/utils.js"></script>
+<script src="../js/theme.js"></script>
+<script src="../js/demo-data.js"></script>
+<script src="../js/demo-scenarios.js"></script>
+<script src="../js/services.js"></script>
+<script src="../js/components.js"></script>
+<script src="../js/charts.js"></script>
+<script src="../js/network-graph.js"></script>
+<script src="../js/navigation.js"></script>
+<script src="../js/chat-service.js"></script>
+<script src="../js/chat-ui.js"></script>
+<script src="../js/pages/attack-graph.js"></script>
+<script src="../js/app.js"></script>
+</body>
+</html>
